@@ -10,7 +10,7 @@ try:
         password="root"
     )
 except Exception as e:
-    logging.error("Error to connect to server")
+    logging.error(e)
     raise e
 
 crs = connect.cursor()
@@ -25,7 +25,7 @@ try:
         database="password_manager_base"
     )
 except Exception as e:
-    logging.error("Error to connect to database")
+    logging.error(e)
     raise e
 
 cursor = connectDB.cursor()
