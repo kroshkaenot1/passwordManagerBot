@@ -1,0 +1,13 @@
+version: "3.7"
+services:
+  db:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    restart: on-failure
+
+  bot:
+    build: .
+    restart: always
+    depends_on:
+      - db

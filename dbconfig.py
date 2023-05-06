@@ -1,13 +1,20 @@
 import logging
+import os
+
 import mysql.connector
 
-logging.basicConfig(filename='app.log',format='%(asctime)s %(levelname)s %(message)s', level=logging.DEBUG)
+logging.basicConfig(filename='app.log', format='%(asctime)s %(levelname)s %(message)s', level=logging.DEBUG)
+
+host = os.getenv('MYSQL_HOST')
+user = os.getenv('MYSQL_USER')
+password = os.getenv('MYSQL_PASSWORD')
+database = os.getenv('MYSQL_DATABASE')
+
 try:
     connect = mysql.connector.connect(
-        host="localhost",
-        port="8889",
-        user="root",
-        password="root"
+        host=host,
+        user=user,
+        password=password
     )
 except Exception as e:
     logging.error(e)
@@ -18,11 +25,10 @@ crs.execute("""CREATE DATABASE IF NOT EXISTS password_manager_base""")
 
 try:
     connectDB = mysql.connector.connect(
-        host="localhost",
-        port="8889",
-        user="root",
-        password="root",
-        database="password_manager_base"
+        host=host,
+        user=user,
+        password=password,
+        database=database
     )
 except Exception as e:
     logging.error(e)
@@ -49,5 +55,3 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS passwords_info (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE CASCADE ON UPDATE CASCADE
 );""")
-
-

@@ -1,11 +1,9 @@
 import asyncio
-
+import os
 import telebot
 import serviceLayer
 
-TOKEN = '6081656901:AAFhUzEE_gjEeW1Xe2AnGYAIZ_wuSE7N8og'
-
-bot = telebot.TeleBot(TOKEN)
+bot = telebot.TeleBot(os.getenv('PMBTOKEN'))
 
 
 @bot.message_handler(commands=["start"])
