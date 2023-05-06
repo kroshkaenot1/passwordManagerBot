@@ -1,5 +1,7 @@
 import asyncio
 import os
+import time
+
 import telebot
 import serviceLayer
 
@@ -83,22 +85,20 @@ def get(message):
 def search_data(message):
     user_id = message.from_user.id
     chat_id = message.chat.id
-
     if message.text is None or message.text.startswith("/"):
         bot.send_message(chat_id=chat_id, text="Вы ввели некорректное значение")
         return
 
     service_name = message.text
     result = serviceLayer.get_data(service_name, user_id)
-
     if len(result) == 0:
         bot.send_message(chat_id=chat_id, text="Записей для этого сервиса не найдено")
 
     else:
         bot.send_message(chat_id=chat_id, text="Найдена запись для {}\nЛогин: {}"
-                         .format(result[0][8], result[0][3]))
+                         .format(service_name, result[0][0]))
         info = bot.send_message(chat_id=chat_id, text="Пароль: {}"
-                                .format(result[0][4]))
+                                .format(result[0][1]))
         asyncio.new_event_loop().run_until_complete(
             serviceLayer.delete_messages(info, bot=bot, loop=asyncio.new_event_loop()))
 

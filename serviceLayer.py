@@ -71,9 +71,9 @@ def set_data(tg_id, service_name, login, password):
 
 def get_data(service_name, tg_id):
     try:
-        sql = 'SELECT * FROM passwords_info ' \
-              'LEFT JOIN users ON passwords_info.user_id = users.id ' \
-              'LEFT JOIN services ON passwords_info.service_id = services.id ' \
+        sql = 'SELECT login, password FROM passwords_info ' \
+              'JOIN users ON passwords_info.user_id = users.id ' \
+              'JOIN services ON passwords_info.service_id = services.id ' \
               'WHERE users.tg_id = {} AND services.name = "{}"'.format(tg_id, service_name)
         dbconfig.cursor.execute(sql)
         return dbconfig.cursor.fetchall()
