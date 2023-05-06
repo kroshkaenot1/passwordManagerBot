@@ -1,8 +1,10 @@
-FROM python:3.11
+ARG TARGETARCH
+FROM ${TARGETARCH}/python:3.8-slim-buster
+
+
 
 COPY . /app
 RUN pip install -r /app/requirements.txt
-
 WORKDIR /app
 
 ENV MYSQL_HOST=db
