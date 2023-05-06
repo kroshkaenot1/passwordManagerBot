@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import os
 
 import dbconfig
 
@@ -96,7 +97,7 @@ def delete_data(service_name, tg_id):
 
 
 async def delete_messages(*args, bot, loop):
-    await asyncio.sleep(60)
+    await asyncio.sleep(float(os.getenv('DELAY_FOR_DELETE')))
     for message in args:
         bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
     loop.stop()
