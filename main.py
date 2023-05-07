@@ -54,7 +54,7 @@ def input_password(message, service_name, login):
         return
 
     password = message.text
-    result = serviceLayer.set_data(user_id, service_name, login, password)
+    result = serviceLayer.set_data(user_id, service_name, login, password, chat_id)
     if result == "added":
         bot.send_message(chat_id=chat_id, text="Вы успешно добавили новую запись для {}\nЛогин: {}"
                          .format(service_name, login))
@@ -90,7 +90,7 @@ def search_data(message):
         return
 
     service_name = message.text
-    result = serviceLayer.get_data(service_name, user_id)
+    result = serviceLayer.get_data(service_name, user_id, chat_id)
     if len(result) == 0:
         bot.send_message(chat_id=chat_id, text="Записей для этого сервиса не найдено")
 
@@ -119,7 +119,7 @@ def del_data(message):
         return
 
     service_name = message.text
-    result = serviceLayer.delete_data(service_name, user_id)
+    result = serviceLayer.delete_data(service_name, user_id, chat_id)
 
     if result == 0:
         bot.send_message(chat_id=chat_id, text="Записи с таким названием сервиса не найдено")

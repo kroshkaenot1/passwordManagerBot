@@ -1,7 +1,7 @@
 import asyncio
 import logging
 import os
-
+import main
 import dbconfig
 
 
@@ -33,7 +33,7 @@ def find_service(service_name):
         raise e
 
 
-def set_data(tg_id, service_name, login, password):
+def set_data(tg_id, service_name, login, password, chat_id):
     if len(service_name) > 100 or len(login) > 50 or len(password) > 50:
         return "invalid"
     try:
@@ -65,11 +65,12 @@ def set_data(tg_id, service_name, login, password):
             dbconfig.connectDB.commit()
             return "updated"
     except Exception as e:
+        main.bot.send_message(chat_id, "Попробуйте еще раз...")
         logging.error(e)
         raise e
 
 
-def get_data(service_name, tg_id):
+def get_data(service_name, tg_id, chat_id):
     try:
         sql = 'SELECT login, password FROM passwords_info ' \
               'JOIN users ON passwords_info.user_id = users.id ' \
@@ -78,11 +79,12 @@ def get_data(service_name, tg_id):
         dbconfig.cursor.execute(sql)
         return dbconfig.cursor.fetchall()
     except Exception as e:
+        main.bot.send_message(chat_id, "Попробуйте еще раз...")
         logging.error(e)
         raise e
 
 
-def delete_data(service_name, tg_id):
+def delete_data(service_name, tg_id, chat_id):
     try:
         sql = 'DELETE passwords_info FROM passwords_info ' \
               'JOIN users ON passwords_info.user_id = users.id ' \
@@ -92,6 +94,7 @@ def delete_data(service_name, tg_id):
         dbconfig.connectDB.commit()
         return dbconfig.cursor.rowcount
     except Exception as e:
+        main.bot.send_message(chat_id, "Попробуйте еще раз...")
         logging.error(e)
         raise e
 
